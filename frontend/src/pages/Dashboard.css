@@ -1,0 +1,371 @@
+/* ── Dashboard Page ────────────────────────────────────── */
+.dashboard-page {
+  min-height: 100vh;
+  padding: 5.5rem 1.5rem 3rem;
+}
+
+.dashboard-container {
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ── Welcome ──────────────────────────────────────────── */
+.dashboard-welcome {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dashboard-title {
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 0.35rem 0;
+}
+
+.dashboard-title .highlight {
+  background: linear-gradient(135deg, #6366f1, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dashboard-subtitle {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.92rem;
+  margin: 0;
+}
+
+/* ── Public Link Card ─────────────────────────────────── */
+.link-card {
+  background: rgba(20, 20, 35, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem;
+  animation: fadeIn 0.5s ease-out 0.05s both;
+}
+
+.link-card-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 0.6rem;
+}
+
+.link-card-url {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 0.6rem 0.85rem;
+}
+
+.link-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.link-text {
+  flex: 1;
+  color: #818cf8;
+  font-size: 0.88rem;
+  font-weight: 500;
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.link-text:hover {
+  color: #a78bfa;
+}
+
+.copy-btn {
+  flex-shrink: 0;
+  padding: 0.35rem 0.85rem;
+  border-radius: 8px;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  background: rgba(99, 102, 241, 0.1);
+  color: #818cf8;
+  font-size: 0.78rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.copy-btn:hover {
+  background: rgba(99, 102, 241, 0.2);
+  border-color: rgba(99, 102, 241, 0.5);
+}
+
+.link-card-hint {
+  margin: 0.6rem 0 0;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* ── Upload Card ──────────────────────────────────────── */
+.upload-card {
+  background: rgba(20, 20, 35, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 1.75rem;
+  animation: fadeIn 0.55s ease-out 0.1s both;
+}
+
+.upload-card-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 0.3rem 0;
+}
+
+.upload-card-desc {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.85rem;
+  margin: 0 0 1.25rem 0;
+  line-height: 1.5;
+}
+
+/* ── Drop Zone ────────────────────────────────────────── */
+.drop-zone {
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s;
+  margin-bottom: 1rem;
+}
+
+.drop-zone:hover {
+  border-color: rgba(99, 102, 241, 0.35);
+  background: rgba(99, 102, 241, 0.04);
+}
+
+.drop-zone.drag-active {
+  border-color: #6366f1;
+  background: rgba(99, 102, 241, 0.08);
+  transform: scale(1.01);
+}
+
+.drop-zone.has-file {
+  border-color: rgba(99, 102, 241, 0.25);
+  background: rgba(99, 102, 241, 0.04);
+  padding: 1rem 1.25rem;
+}
+
+.file-input-hidden {
+  display: none;
+}
+
+/* Drop Zone Empty State */
+.drop-zone-content {
+  pointer-events: none;
+}
+
+.drop-icon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.drop-text {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.9rem;
+  margin: 0 0 0.25rem 0;
+}
+
+.browse-text {
+  color: #818cf8;
+  font-weight: 600;
+}
+
+.drop-hint {
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 0.78rem;
+  margin: 0;
+}
+
+/* File Selected State */
+.file-selected {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: left;
+}
+
+.file-icon {
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+
+.file-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.file-name {
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.file-size {
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 0.78rem;
+}
+
+.file-remove {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(239, 68, 68, 0.12);
+  color: #f87171;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.file-remove:hover {
+  background: rgba(239, 68, 68, 0.25);
+}
+
+/* ── Upload Button ────────────────────────────────────── */
+.upload-btn {
+  width: 100%;
+  padding: 0.85rem 1.5rem;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.25s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 48px;
+}
+
+.upload-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.35);
+}
+
+.upload-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.upload-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-loader {
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Current Resume ───────────────────────────────────── */
+.current-resume {
+  margin-top: 1rem;
+  padding: 0.85rem 1.1rem;
+  border-radius: 10px;
+  background: rgba(74, 222, 128, 0.06);
+  border: 1px solid rgba(74, 222, 128, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.current-resume-header {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #4ade80;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.current-resume-icon {
+  font-size: 0.9rem;
+}
+
+.view-resume-link {
+  color: #818cf8;
+  font-size: 0.82rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s;
+  white-space: nowrap;
+}
+
+.view-resume-link:hover {
+  color: #a78bfa;
+}
+
+/* ── Responsive ───────────────────────────────────────── */
+@media (max-width: 480px) {
+  .dashboard-page {
+    padding: 5rem 1rem 2rem;
+  }
+
+  .dashboard-title {
+    font-size: 1.5rem;
+  }
+
+  .link-card-url {
+    flex-wrap: wrap;
+  }
+
+  .copy-btn {
+    width: 100%;
+    text-align: center;
+    padding: 0.5rem;
+  }
+}
