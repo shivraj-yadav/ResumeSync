@@ -38,6 +38,7 @@ exports.uploadResume = async (req, res) => {
           folder: "resumesync",
           public_id: `${user.username}-resume`,
           overwrite: true,
+          invalidate: true, // Bust CDN cache so the new file is served immediately
           format: "pdf",
         },
         (error, result) => {
@@ -48,14 +49,19 @@ exports.uploadResume = async (req, res) => {
       stream.end(req.file.buffer);
     });
 
+    // Build a version-less URL so it NEVER changes across re-uploads.
+    // Cloudinary versioned URL:   .../upload/v1779136464/resumesync/user-resume.pdf
+    // Cloudinary version-less URL: .../upload/resumesync/user-resume.pdf  (always serves latest)
+    const permanentUrl = result.secure_url.replace(/\/v\d+\//, "/");
+
     // Update user's resume URL and public ID in MongoDB
-    user.resumeUrl = result.secure_url;
+    user.resumeUrl = permanentUrl;
     user.resumePublicId = result.public_id;
     await user.save();
 
     res.json({
       message: "Resume uploaded successfully",
-      resumeUrl: result.secure_url,
+      resumeUrl: permanentUrl,
     });
   } catch (error) {
     console.error("Resume upload error:", error);
