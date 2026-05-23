@@ -1,6 +1,12 @@
 const cloudinary = require("../utils/cloudinary");
 const User = require("../models/User");
 
+// ── Helper: build permanent versionless Cloudinary URL ──
+const buildResumeUrl = (publicId) => {
+  const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
+  return `https://res.cloudinary.com/${cloudName}/raw/upload/${publicId}.pdf`;
+};
+
 // ── POST /api/resume/upload ─────────────────────────────
 exports.uploadResume = async (req, res) => {
   try {
@@ -18,19 +24,8 @@ exports.uploadResume = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // If user already has a resume, delete the old one from Cloudinary
-    if (user.resumePublicId) {
-      try {
-        await cloudinary.uploader.destroy(user.resumePublicId, {
-          resource_type: "raw",
-        });
-      } catch (err) {
-        console.error("Error deleting old resume from Cloudinary:", err);
-        // Continue anyway — don't block the new upload
-      }
-    }
-
-    // Upload new resume to Cloudinary
+    // Upload to Cloudinary with fixed public_id (overwrite + invalidate)
+    // This ensures the same public_id is reused, so the URL never changes
     const result = await new Promise((resolve, reject) => {
       const stream = cloudinary.uploader.upload_stream(
         {
@@ -38,7 +33,7 @@ exports.uploadResume = async (req, res) => {
           folder: "resumesync",
           public_id: `${user.username}-resume`,
           overwrite: true,
-          invalidate: true, // Bust CDN cache so the new file is served immediately
+          invalidate: true,
           format: "pdf",
         },
         (error, result) => {
@@ -49,22 +44,22 @@ exports.uploadResume = async (req, res) => {
       stream.end(req.file.buffer);
     });
 
-    // Build a version-less URL so it NEVER changes across re-uploads.
-    // Cloudinary versioned URL:   .../upload/v1779136464/resumesync/user-resume.pdf
-    // Cloudinary version-less URL: .../upload/resumesync/user-resume.pdf  (always serves latest)
-    const permanentUrl = result.secure_url.replace(/\/v\d+\//, "/");
-
-    // Update user's resume URL and public ID in MongoDB
-    user.resumeUrl = permanentUrl;
+    // Store ONLY the public_id in MongoDB — URL is derived dynamically
     user.resumePublicId = result.public_id;
     await user.save();
 
+    // Build the permanent versionless URL to return to the client
+    const resumeUrl = buildResumeUrl(result.public_id);
+
     res.json({
       message: "Resume uploaded successfully",
-      resumeUrl: permanentUrl,
+      resumeUrl,
     });
   } catch (error) {
     console.error("Resume upload error:", error);
     res.status(500).json({ message: "Failed to upload resume" });
   }
 };
+
+// Export helper for use in auth controller
+exports.buildResumeUrl = buildResumeUrl;

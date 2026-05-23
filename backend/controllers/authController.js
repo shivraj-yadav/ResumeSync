@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const { buildResumeUrl } = require("./resumeController");
 
 // ── Helper: generate JWT ────────────────────────────────
 const generateToken = (userId) => {
@@ -107,7 +108,9 @@ exports.login = async (req, res) => {
         name: user.name,
         email: user.email,
         username: user.username,
-        resumeUrl: user.resumeUrl,
+        resumeUrl: user.resumePublicId
+          ? buildResumeUrl(user.resumePublicId)
+          : "",
       },
     });
   } catch (error) {
@@ -162,7 +165,9 @@ exports.getMe = async (req, res) => {
         name: user.name,
         email: user.email,
         username: user.username,
-        resumeUrl: user.resumeUrl,
+        resumeUrl: user.resumePublicId
+          ? buildResumeUrl(user.resumePublicId)
+          : "",
       },
     });
   } catch (error) {

@@ -30,10 +30,6 @@ const userSchema = new mongoose.Schema(
         "Username can only contain lowercase letters, numbers, and hyphens",
       ],
     },
-    resumeUrl: {
-      type: String,
-      default: "",
-    },
     resumePublicId: {
       type: String,
       default: "",
