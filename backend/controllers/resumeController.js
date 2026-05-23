@@ -4,7 +4,7 @@ const User = require("../models/User");
 // ── Helper: build permanent versionless Cloudinary URL ──
 const buildResumeUrl = (publicId) => {
   const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
-  return `https://res.cloudinary.com/${cloudName}/raw/upload/${publicId}.pdf`;
+  return `https://res.cloudinary.com/${cloudName}/raw/upload/${publicId}`;
 };
 
 // ── POST /api/resume/upload ─────────────────────────────
